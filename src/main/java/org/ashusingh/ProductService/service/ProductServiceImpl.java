@@ -2,6 +2,7 @@ package org.ashusingh.ProductService.service;
 
 import lombok.extern.log4j.Log4j2;
 import org.ashusingh.ProductService.entity.Product;
+import org.ashusingh.ProductService.exception.ProductServiceCustomException;
 import org.ashusingh.ProductService.model.ProductRequest;
 import org.ashusingh.ProductService.model.ProductResponse;
 import org.ashusingh.ProductService.repository.ProductRepository;
@@ -33,7 +34,7 @@ public class ProductServiceImpl implements ProductService{
     public ProductResponse getProductById(long productId) {
         log.info("Get the product for productId : {}", productId);
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product with given id not found"));
+                .orElseThrow(() -> new ProductServiceCustomException("Product with given id not found", "PRODUCT_NOT_FOUND"));
         ProductResponse productResponse = new ProductResponse();
         copyProperties(product, productResponse);
         return productResponse;
